@@ -48,7 +48,7 @@ exit
 ```  
 6. Остановите контейнер с приложением.
 ```
-docker-compose down
+docker stop my-task-app && docker rm my-task-app
 ```
 
 ## Часть II. Docker compose
