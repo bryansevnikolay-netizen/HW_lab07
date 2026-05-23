@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mariadb:10.11
+    container_name: task-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: taskdb
+      MYSQL_USER: taskuser
+      MYSQL_PASSWORD: taskpass
+    volumes:
+      - ./deb/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+  web:
+    build: .
+    container_name: my-task-app
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: taskuser
+      DB_PASSWORD: taskpass
+      DB_NAME: taskdb
+    depends_on:
+      - db
+
+volumes:
+  db_data:
